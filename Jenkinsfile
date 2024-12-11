@@ -12,7 +12,9 @@ pipeline {
     stage ('Deploy') {
       steps {
         script {
-          sh "docker run -d -p 8000:80 my-nginx:${env.BUILD_ID}"
+          sh "docker stop my-nginx"
+          sh "docker rm my-nginx"
+          sh "docker run -d -p 8000:80 --name my-nginx my-nginx:${env.BUILD_ID}"
         }
       }
     }
