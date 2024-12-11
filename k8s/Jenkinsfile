@@ -9,10 +9,10 @@ pipeline {
          }
        }
     }
-    stage ('Deploy') {
-      steps {
-        script {
-          echo "Testando Jenkins K8s"
+    stage ('Teste kubernetes') {
+      stage('Apply Kubernetes files') {
+        withKubeConfig([credentialsId: 'kubeconfig', serverUrl: 'https://192.168.0.150:6443']) {
+          sh 'kubectl get namespaces'
         }
       }
     }
