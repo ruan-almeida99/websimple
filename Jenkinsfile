@@ -12,7 +12,14 @@ pipeline {
     stage ('Deploy') {
       steps {
         script {
-          sh "if [[ $(docker ps -a -q | wc -m) -gt 0 ]]; then echo "ola mundo"; fi"
+          // Obter a lista de containers que estão parados
+          def containers = sh(script: 'docker ps -a -q', returnStdout: true).trim()
+
+          // Verificar se há containers e parar e remover se houver
+          if (containers) {
+              sh "docker stop ${containers} && docker rm ${containers}"
+          }
+          
           sh "docker run -d -p 8000:80 --name my-nginx my-nginx:${env.BUILD_ID}"
         }
       }
