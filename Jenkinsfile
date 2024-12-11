@@ -13,9 +13,7 @@ pipeline {
       steps {
         steps {
           script {
-            """
             sh 'docker run -p 8000:80 my-nginx:${env.BUILD_ID}'
-            """
           }
         }
       }
