@@ -2,9 +2,11 @@ pipeline {
   agent any
 
   stages {
-    stage ('Echo') {
+    stage ('Build') {
        steps {
-         echo 'Hello world!'
+         script {
+          docker.build("my-nginx:${env.BUILD_ID}")
+         }
        }
     }
   }
